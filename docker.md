@@ -31,7 +31,7 @@ docker pull ubuntu:18.04
 
 命令：`docker image ls 或 docker images`
 
-```docker
+```js
 docker image ls 或 docker images // 查看顶层镜像
 docker image ls -a 或 docker images -a // 查看所有镜像
 docker image ls --digests // 查看带有摘要的镜像
