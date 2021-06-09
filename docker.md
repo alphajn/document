@@ -8,7 +8,38 @@
 - 容器（Container）
 - 仓库（Repository）
 
-[TOC]
+---
+目录
+
+- [命令预览](##命令预览)
+- [镜像-Image](##镜像-Image)
+  - [获取镜像](###获取镜像)
+  - [查看已下载镜像](###查看已下载镜像)
+  - [删除镜像](###删除镜像)
+- [使用Dockerfile定制镜像](##使用Dockerfile定制镜像)
+  - [构建镜像](###构建镜像)
+  - [Dockerfile指令](###Dockerfile指令)
+    1. [FROM](####FROM-指定基础镜像)
+    2. [RUN](####RUN-执行命令)
+    3. [COPY](####COPY-复制文件)
+    4. [ADD](####ADD-更高级的复制文件,需要自动解压缩的场合才使用)
+    5. [CMD](####CMD-执行命令)
+    6. [ENTRYPOIN](####ENTRYPOIN-执行命令，跟`CMD`类似)
+    7. [ENV](####ENV-设置环境变量)
+    8. [EXPOSE](####EXPOSE-暴露端口)
+    9. [WORKDIR](####WORKDIR-指定工作目录)
+    10. [USER](####USER-指定当前用户)
+    11. [HEALTHCHECK](####HEALTHCHECK-健康检查)
+- [容器-Container](##容器-Container)
+  - [启动容器](###启动容器)
+  - [查看容器](###查看容器)
+  - [终止容器](###终止容器)
+  - [重启容器](###重启容器)
+  - [进入容器](###进入容器)
+  - [删除容器](###删除容器)
+  - [导入导出](###导入导出)
+- [其他命令](##其他命令)
+  - [拷贝](###拷贝)
 
 ## 命令预览
 
@@ -74,26 +105,6 @@ docker image rm $(docker image ls -q nginx) // 删除所有的nginx镜像
 
 ## 使用Dockerfile定制镜像
 
-### FROM 指定基础镜像
-
-命令：`FROM 镜像`
-
-`Dockerfile` 中 `FROM` 是必备的指令，并且必须是第一条指令。
-
-```js
-FROM scratch // 空白镜像
-FROM nginx // 指定nginx镜像
-```
-
-### RUN 执行命令
-
-1. shell格式：`RUN <命令>`
-2. exec 格式：`RUN ["可执行文件", "参数1", "参数2"]`
-
-```js
-RUN echo '<h1>Hello, Docker!</h1>' > /usr/share/nginx/html/index.html
-```
-
 ### 构建镜像
 
 命令：`docker build [选项] <上下文路径/URL/tar/->`
@@ -110,9 +121,8 @@ RUN echo '<h1>Hello, Docker!</h1>' > /usr/share/nginx/html/index.html
 
 ```js
 // Dockerfile 文件构建
-    FROM nginx
-    RUN echo '<h1>Hello, Docker!</h1>' > /usr/share/nginx/html/index.html
-
+FROM nginx
+RUN echo '<h1>Hello, Docker!</h1>' > /usr/share/nginx/html/index.html
 docker build -t nginx:v1 .
 
 // 仓库地址构建
@@ -124,7 +134,27 @@ docker build http://server/context.tar.gz
 
 ### Dockerfile指令
 
-#### COPY 复制文件
+#### FROM-指定基础镜像
+
+命令：`FROM 镜像`
+
+`Dockerfile` 中 `FROM` 是必备的指令，并且必须是第一条指令。
+
+```js
+FROM scratch // 空白镜像
+FROM nginx // 指定nginx镜像
+```
+
+#### RUN-执行命令
+
+1. shell格式：`RUN <命令>`
+2. exec 格式：`RUN ["可执行文件", "参数1", "参数2"]`
+
+```js
+RUN echo '<h1>Hello, Docker!</h1>' > /usr/share/nginx/html/index.html
+```
+
+#### COPY-复制文件
 
 命令：
 
@@ -142,7 +172,7 @@ COPY --chown=1 files* /mydir/
 COPY --chown=10:11 files* /mydir/
 ```
 
-#### ADD 更高级的复制文件,需要自动解压缩的场合才使用
+#### ADD-更高级的复制文件,需要自动解压缩的场合才使用
 
 命令：
 
@@ -154,7 +184,7 @@ ADD nginx.tar.gz /
 ADD https://nginx/nginx.tar.gz / // 愿路径可以是连接
 ```
 
-#### CMD 执行命令
+#### CMD-执行命令
 
 命令：`CMD ["可执行文件", "参数1", "参数2"...]`
 
@@ -162,13 +192,13 @@ ADD https://nginx/nginx.tar.gz / // 愿路径可以是连接
 CMD [ "sh", "-c", "echo $HOME" ]
 ```
 
-#### ENTRYPOIN` 执行命令，跟`CMD`类似
+#### ENTRYPOIN-执行命令，跟`CMD`类似
 
 ```js
 ENTRYPOINT [ "curl", "-s", "http://myip.ipip.net" ]
 ```
 
-#### ENV 设置环境变量
+#### ENV-设置环境变量
 
 命令：
 
@@ -179,7 +209,7 @@ ENTRYPOINT [ "curl", "-s", "http://myip.ipip.net" ]
 ENV VERSION=1.0 DEBUG=on
 ```
 
-#### EXPOSE 暴露端口
+#### EXPOSE-暴露端口
 
 命令：`EXPOSE <端口1> [<端口2>...]`
 
@@ -187,7 +217,7 @@ ENV VERSION=1.0 DEBUG=on
 EXPOSE 80 443
 ```
 
-#### WORKDIR 指定工作目录
+#### WORKDIR-指定工作目录
 
 使用 `WORKDIR` 指令可以来指定工作目录（或者称为当前目录），以后各层的当前目录就被改为指定的目录，如该目录不存在，`WORKDIR` 会帮你建立目录。
 
@@ -197,7 +227,7 @@ EXPOSE 80 443
 WORKDIR /app
 ```
 
-#### USER 指定当前用户
+#### USER-指定当前用户
 
 `USER` 指令和 `WORKDIR` 相似，都是改变环境状态并影响以后的层。`WORKDIR` `是改变工作目录，USER` 则是改变之后层的执行 `RUN`, `CMD` 以及 `ENTRYPOINT` 这类命令的身份。
 
@@ -207,7 +237,7 @@ WORKDIR /app
 USER user:groupuser
 ```
 
-#### HEALTHCHECK 健康检查
+#### HEALTHCHECK-健康检查
 
 `HEALTHCHECK` 指令是告诉 Docker 应该如何进行判断容器的状态是否正常，这是 Docker 1.12 引入的新指令。
 
@@ -315,7 +345,22 @@ docker attach 69d1
 docker exec -it 69d1 bash
 ```
 
-### 倒入导出
+### 删除容器
+
+命令：`docker container rm [选项] container [container...] 或 docker rm [选项] container`
+
+选项：
+
+  1. `-f`: 强制删除（运行中的）
+  2. `-l`: 删除指定链接
+
+```js
+docker container rm nginx-v1 或 docker rm nginx-v1 // 删除容器
+docker container rm -f nginx-v1 或 docker rm -f nginx-v1 // 删除运行中的容器
+docker container prune // 删除所有停止的容器
+```
+
+### 导入导出
 
 命令：
 
@@ -335,21 +380,6 @@ docker import http://example.com/exampleimage.tgz example/imagerepo // url导入
 ```
 
 **运行导入的镜像需要带command 否则报错**
-
-### 删除容器
-
-命令：`docker container rm [选项] container [container...] 或 docker rm [选项] container`
-
-选项：
-
-  1. `-f`: 强制删除（运行中的）
-  2. `-l`: 删除指定链接
-
-```js
-docker container rm nginx-v1 或 docker rm nginx-v1 // 删除容器
-docker container rm -f nginx-v1 或 docker rm -f nginx-v1 // 删除运行中的容器
-docker container prune // 删除所有停止的容器
-```
 
 ## 其他命令
 
