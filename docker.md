@@ -64,7 +64,7 @@ docker image ls --format "table {{.ID}}\t{{.Repository}}\t{{.Tag}}" // 以表格
 ```js
 docker image rm [ID] 或 docker rmi [id] // 使用ID删除，也可以取id中前三个以上的字符
 docker image rm nginx:latest // 使用仓库名:标签删除
-docker image prune // 删除虚悬镜像(无用的镜像)
+docker image prune // 删除虚悬镜像(无用的镜像)
 
 // 配合 docker image ls -q 批量删除
 docker image rm $(docker image ls -q nginx) // 删除所有的nginx镜像
@@ -340,7 +340,7 @@ docker import http://example.com/exampleimage.tgz example/imagerepo // url导入
 
 选项：
 
-  1. `-f`: 强制删除（运行中的）
+  1. `-f`: 强制删除（运行中的）
   2. `-l`: 删除指定链接
 
 ```js
