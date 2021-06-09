@@ -38,7 +38,7 @@ docker image ls --digests // 查看带有摘要的镜像
 
 // 虚悬镜像
 docker image ls -f dangling=true // 查看虚悬镜像(无用的镜像)
-docker image prune // 删除虚悬镜像(无用的镜像)
+docker image prune // 删除虚悬镜像(无用的镜像)
 
 // 根据仓库查看镜像
 docker image ls ubuntu // 根据仓库名列出镜像
