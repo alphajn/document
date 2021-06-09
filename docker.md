@@ -8,6 +8,8 @@
 - 容器（Container）
 - 仓库（Repository）
 
+[TOC]
+
 ## 命令预览
 
 命令 | 描述
@@ -149,7 +151,7 @@ COPY --chown=10:11 files* /mydir/
 
 ```shell
 ADD nginx.tar.gz /
-ADD https://nginx/nginx.tar.gz / // 愿路径可以是路径
+ADD https://nginx/nginx.tar.gz / // 愿路径可以是连接
 ```
 
 #### CMD 执行命令
