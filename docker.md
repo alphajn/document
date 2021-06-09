@@ -1,6 +1,6 @@
 # Docker
 
-[文档连接](https://yeasy.gitbook.io/docker_practice/){target="_blank"}
+[文档连接](https://yeasy.gitbook.io/docker_practice/)
 
 基本
 
