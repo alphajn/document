@@ -70,9 +70,9 @@ docker image prune // 删除虚悬镜像(无用的镜像)
 docker image rm $(docker image ls -q nginx) // 删除所有的nginx镜像
 ```
 
-### 使用Dockerfile定制镜像
+## 使用Dockerfile定制镜像
 
-#### FROM 指定基础镜像
+### FROM 指定基础镜像
 
 命令：`FROM 镜像`
 
@@ -83,7 +83,7 @@ FROM scratch // 空白镜像
 FROM nginx // 指定nginx镜像
 ```
 
-#### RUN 执行命令
+### RUN 执行命令
 
 1. shell格式：`RUN <命令>`
 2. exec 格式：`RUN ["可执行文件", "参数1", "参数2"]`
@@ -92,7 +92,7 @@ FROM nginx // 指定nginx镜像
 RUN echo '<h1>Hello, Docker!</h1>' > /usr/share/nginx/html/index.html
 ```
 
-#### 构建镜像
+### 构建镜像
 
 命令：`docker build [选项] <上下文路径/URL/tar/->`
 
@@ -120,9 +120,9 @@ docker build -t hello-world https://github.com/docker-library/hello-world.git
 docker build http://server/context.tar.gz
 ```
 
-#### Dockerfile指令
+### Dockerfile指令
 
-`COPY`: 复制文件
+#### COPY 复制文件
 
 命令：
 
@@ -140,7 +140,7 @@ COPY --chown=1 files* /mydir/
 COPY --chown=10:11 files* /mydir/
 ```
 
-`ADD` 更高级的复制文件,需要自动解压缩的场合才使用
+#### ADD 更高级的复制文件,需要自动解压缩的场合才使用
 
 命令：
 
@@ -152,7 +152,7 @@ ADD nginx.tar.gz /
 ADD https://nginx/nginx.tar.gz / // 愿路径可以是路径
 ```
 
-`CMD`: 执行命令
+#### CMD 执行命令
 
 命令：`CMD ["可执行文件", "参数1", "参数2"...]`
 
@@ -160,13 +160,13 @@ ADD https://nginx/nginx.tar.gz / // 愿路径可以是路径
 CMD [ "sh", "-c", "echo $HOME" ]
 ```
 
-`ENTRYPOINT`: 执行命令，跟`CMD`类似
+#### ENTRYPOIN` 执行命令，跟`CMD`类似
 
 ```js
 ENTRYPOINT [ "curl", "-s", "http://myip.ipip.net" ]
 ```
 
-`ENV` 设置环境变量
+#### ENV 设置环境变量
 
 命令：
 
@@ -177,7 +177,7 @@ ENTRYPOINT [ "curl", "-s", "http://myip.ipip.net" ]
 ENV VERSION=1.0 DEBUG=on
 ```
 
-`EXPOSE` 暴露端口
+#### EXPOSE 暴露端口
 
 命令：`EXPOSE <端口1> [<端口2>...]`
 
@@ -185,7 +185,7 @@ ENV VERSION=1.0 DEBUG=on
 EXPOSE 80 443
 ```
 
-`WORKDIR` 指定工作目录
+#### WORKDIR 指定工作目录
 
 使用 `WORKDIR` 指令可以来指定工作目录（或者称为当前目录），以后各层的当前目录就被改为指定的目录，如该目录不存在，`WORKDIR` 会帮你建立目录。
 
@@ -195,7 +195,7 @@ EXPOSE 80 443
 WORKDIR /app
 ```
 
-`USER` 指定当前用户
+#### USER 指定当前用户
 
 `USER` 指令和 `WORKDIR` 相似，都是改变环境状态并影响以后的层。`WORKDIR` `是改变工作目录，USER` 则是改变之后层的执行 `RUN`, `CMD` 以及 `ENTRYPOINT` 这类命令的身份。
 
@@ -205,7 +205,7 @@ WORKDIR /app
 USER user:groupuser
 ```
 
-`HEALTHCHECK` 健康检查
+#### HEALTHCHECK 健康检查
 
 `HEALTHCHECK` 指令是告诉 Docker 应该如何进行判断容器的状态是否正常，这是 Docker 1.12 引入的新指令。
 
